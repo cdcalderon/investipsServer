@@ -1,19 +1,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace investips.Models
 {
   public class Security
   {
     public int Id { get; set; }
+
+    [Required]
+    [StringLength(25)]
     public string Symbol { get; set; }
-
-    public ICollection<Porfolio> Porfolios {get; set;} 
-
-    public Security()
-    {
-        Porfolios = new Collection<Porfolio>();
-    }
 
   }
 }
