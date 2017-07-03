@@ -10,10 +10,10 @@ namespace investips.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-        public ICollection<Security> Securities { get; set; }
+        public ICollection<PorfolioSecurity> Securities { get; set; }
         public Porfolio()  
         {
-            Securities = new Collection<Security>();
+            Securities = new Collection<PorfolioSecurity>();
         }
         
     }

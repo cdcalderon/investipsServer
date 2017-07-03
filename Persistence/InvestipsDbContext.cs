@@ -5,13 +5,17 @@ namespace investips.Persistence
 {
     public class InvestipsDbContext :  DbContext
     {
+        public DbSet<Porfolio> Porfolios { get; set; }
+        public DbSet<Security> Securities { get; set; }
         public InvestipsDbContext(DbContextOptions<InvestipsDbContext> options)
             : base(options)
         {
             
         }
 
-        public DbSet<Porfolio> Porfolios { get; set; }
-        public DbSet<Security> Securities { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBulder) {
+            modelBulder.Entity<PorfolioSecurity>().HasKey(ps =>
+                new {ps.PorfolioId, ps.SecurityId});
+        }
     }
 }

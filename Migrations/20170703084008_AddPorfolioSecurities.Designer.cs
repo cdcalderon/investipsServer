@@ -8,9 +8,10 @@ using investips.Persistence;
 namespace Investips.Migrations
 {
     [DbContext(typeof(InvestipsDbContext))]
-    partial class InvestipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170703084008_AddPorfolioSecurities")]
+    partial class AddPorfolioSecurities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
