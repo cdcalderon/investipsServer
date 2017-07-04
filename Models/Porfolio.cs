@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,11 +11,11 @@ namespace investips.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
+        public DateTime LastUpdate { get; set; }
         public ICollection<PorfolioSecurity> Securities { get; set; }
         public Porfolio()  
         {
             Securities = new Collection<PorfolioSecurity>();
         }
-        
     }
 }
