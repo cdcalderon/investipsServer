@@ -32,6 +32,7 @@ namespace WebApplicationBasic
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPorfolioRepository, PorfolioRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddDbContext<InvestipsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             

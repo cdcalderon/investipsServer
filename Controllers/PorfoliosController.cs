@@ -13,14 +13,14 @@ namespace investips.Controllers
   [Route("/api/porfolios")]
   public class PorfoliosController : Controller
   {
-    private readonly InvestipsDbContext context;
     private readonly IMapper mapper;
     private readonly IPorfolioRepository repository;
-    public PorfoliosController(InvestipsDbContext context, IMapper mapper, IPorfolioRepository repository)
+    private readonly IUnitOfWork uow;
+    public PorfoliosController(IMapper mapper, IPorfolioRepository repository, IUnitOfWork uow)
     {
+      this.uow = uow;
       this.repository = repository;
       this.mapper = mapper;
-      this.context = context;
     }
 
     [HttpGet("{id}")]
@@ -40,7 +40,7 @@ namespace investips.Controllers
     [HttpGet]
     public async Task<IEnumerable<PorfolioResource>> GetPorfolios()
     {
-      var porfolios = await context.Porfolios.Include(p => p.Securities).ToListAsync();
+      var porfolios = await repository.GetPorfolios();
       return Mapper.Map<List<Porfolio>, List<PorfolioResource>>(porfolios);
     }
 
@@ -54,8 +54,8 @@ namespace investips.Controllers
       var porfolio = mapper.Map<SavePorfolioResource, Porfolio>(porfolioResource);
       porfolio.LastUpdate = DateTime.Now;
 
-      context.Porfolios.Add(porfolio);
-      await context.SaveChangesAsync();
+      repository.Add(porfolio);
+      await uow.CompleteAsync();
 
       porfolio = await repository.GetPorfolio(porfolio.Id);
 
@@ -80,8 +80,8 @@ namespace investips.Controllers
       mapper.Map<SavePorfolioResource, Porfolio>(porfolioResource, porfolio);
       porfolio.LastUpdate = DateTime.Now;
 
-      await context.SaveChangesAsync();
-
+      await uow.CompleteAsync();
+      porfolio = await repository.GetPorfolio(porfolio.Id);
       var result = mapper.Map<Porfolio, PorfolioResource>(porfolio);
       return Ok(result);
     }
@@ -89,14 +89,14 @@ namespace investips.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteVehicle(int id)
     {
-      var porfolio = await context.Porfolios.FindAsync(id);
+      var porfolio = await repository.GetPorfolio(id, includeProps: false);
 
       if (porfolio == null)
       {
         return NotFound();
       }
-      context.Remove(porfolio);
-      await context.SaveChangesAsync();
+      repository.Remove(porfolio);
+      await uow.CompleteAsync();
 
       return Ok(id);
     }
