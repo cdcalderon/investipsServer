@@ -1,4 +1,4 @@
-using investips.Models;
+using investips.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace investips.Persistence

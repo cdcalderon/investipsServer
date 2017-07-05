@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using investips.Controllers.Resources;
-using investips.Models;
-using investips.Persistence;
+using investips.Core.Models;
+using investips.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

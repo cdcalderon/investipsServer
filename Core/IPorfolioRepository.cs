@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using investips.Models;
+using investips.Core.Models;
 
-namespace investips.Persistence
+namespace investips.Core
 {
     public interface IPorfolioRepository
     {

@@ -1,6 +1,6 @@
 using AutoMapper;
 using investips.Controllers.Resources;
-using investips.Models;
+using investips.Core.Models;
 using System.Linq;
 using System.Collections.Generic;
 

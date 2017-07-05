@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-
+using investips.Core;
 namespace investips.Persistence
 {
   public class UnitOfWork : IUnitOfWork

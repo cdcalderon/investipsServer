@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace investips.Persistence
+namespace investips.Core
 {
   public interface IUnitOfWork
   {

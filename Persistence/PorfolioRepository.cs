@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using investips.Models;
+using investips.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using investips.Core;
 
 namespace investips.Persistence
 {

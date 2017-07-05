@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace investips.Models
+namespace investips.Core.Models
 {
     [Table("PorfolioSecurities")]
     public class PorfolioSecurity
