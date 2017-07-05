@@ -15,8 +15,10 @@ namespace investips.Controllers
   {
     private readonly InvestipsDbContext context;
     private readonly IMapper mapper;
-    public PorfoliosController(InvestipsDbContext context, IMapper mapper)
+    private readonly IPorfolioRepository repository;
+    public PorfoliosController(InvestipsDbContext context, IMapper mapper, IPorfolioRepository repository)
     {
+      this.repository = repository;
       this.mapper = mapper;
       this.context = context;
     }
@@ -24,12 +26,10 @@ namespace investips.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPorfolio(int id)
     {
-      var porfolio = await context.Porfolios
-      .Include(p => p.Securities)
-      .ThenInclude(ps => ps.Security)
-      .SingleOrDefaultAsync(p => p.Id == id);
+      var porfolio = await repository.GetPorfolio(id);
 
-      if( porfolio == null) {
+      if (porfolio == null)
+      {
         return NotFound();
       }
 
@@ -47,7 +47,8 @@ namespace investips.Controllers
     [HttpPost]
     public async Task<IActionResult> CreatePorfolio([FromBody] SavePorfolioResource porfolioResource)
     {
-      if(!ModelState.IsValid) {
+      if (!ModelState.IsValid)
+      {
         return BadRequest(ModelState);
       }
       var porfolio = mapper.Map<SavePorfolioResource, Porfolio>(porfolioResource);
@@ -56,10 +57,7 @@ namespace investips.Controllers
       context.Porfolios.Add(porfolio);
       await context.SaveChangesAsync();
 
-      porfolio = await context.Porfolios
-      .Include(p => p.Securities)
-      .ThenInclude(ps => ps.Security)
-      .SingleOrDefaultAsync(p => p.Id == porfolio.Id);
+      porfolio = await repository.GetPorfolio(porfolio.Id);
 
       var result = mapper.Map<Porfolio, PorfolioResource>(porfolio);
       return Ok(result);
@@ -72,10 +70,7 @@ namespace investips.Controllers
       {
         return BadRequest(ModelState);
       }
-      var porfolio = await context.Porfolios
-      .Include(p => p.Securities)
-      .ThenInclude(ps => ps.Security)
-      .SingleOrDefaultAsync(p => p.Id == id);
+      var porfolio = await repository.GetPorfolio(id);
 
       if (porfolio == null)
       {
@@ -92,11 +87,12 @@ namespace investips.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteVehicle(int id) 
+    public async Task<IActionResult> DeleteVehicle(int id)
     {
       var porfolio = await context.Porfolios.FindAsync(id);
 
-      if( porfolio == null) {
+      if (porfolio == null)
+      {
         return NotFound();
       }
       context.Remove(porfolio);

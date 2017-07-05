@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace investips.Persistence
 {
-  public class PorfolioRepository
+  public class PorfolioRepository : IPorfolioRepository
   {
     private readonly InvestipsDbContext context;
     public PorfolioRepository(InvestipsDbContext context)
