@@ -10,14 +10,17 @@ namespace investips.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Porfolio, PorfolioResource>()
+            CreateMap<Porfolio, SavePorfolioResource>()
             .ForMember(pr => pr.Securities, opt => opt.MapFrom(p => p.Securities
             .Select(s => s.SecurityId)));
 
+            CreateMap<Porfolio, PorfolioResource>()
+            .ForMember(pr => pr.Securities, opt => opt.MapFrom(p => p.Securities.Select(s => new SecurityResource {
+                Id = s.Security.Id, Symbol = s.Security.Symbol})));
+            
             CreateMap<Security, SecurityResource>();
-            CreateMap<PorfolioResource, Porfolio>();
 
-            CreateMap<PorfolioResource, Porfolio>()
+            CreateMap<SavePorfolioResource, Porfolio>()
             .ForMember(p => p.Id, opt => opt.Ignore())
             .ForMember(p => p.Securities, opt => opt.Ignore())
             .AfterMap((pr, p) => {

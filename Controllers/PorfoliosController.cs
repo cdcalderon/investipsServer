@@ -24,7 +24,10 @@ namespace investips.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPorfolio(int id)
     {
-      var porfolio = await context.Porfolios.Include(p => p.Securities).SingleOrDefaultAsync(p => p.Id == id);
+      var porfolio = await context.Porfolios
+      .Include(p => p.Securities)
+      .ThenInclude(ps => ps.Security)
+      .SingleOrDefaultAsync(p => p.Id == id);
 
       if( porfolio == null) {
         return NotFound();
@@ -42,37 +45,44 @@ namespace investips.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreatePorfolio([FromBody] PorfolioResource porfolioResource)
+    public async Task<IActionResult> CreatePorfolio([FromBody] SavePorfolioResource porfolioResource)
     {
       if(!ModelState.IsValid) {
         return BadRequest(ModelState);
       }
-      var porfolio = mapper.Map<PorfolioResource, Porfolio>(porfolioResource);
+      var porfolio = mapper.Map<SavePorfolioResource, Porfolio>(porfolioResource);
       porfolio.LastUpdate = DateTime.Now;
 
       context.Porfolios.Add(porfolio);
       await context.SaveChangesAsync();
+
+      porfolio = await context.Porfolios
+      .Include(p => p.Securities)
+      .ThenInclude(ps => ps.Security)
+      .SingleOrDefaultAsync(p => p.Id == porfolio.Id);
 
       var result = mapper.Map<Porfolio, PorfolioResource>(porfolio);
       return Ok(result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePorfolio(int id, [FromBody] PorfolioResource porfolioResource)
+    public async Task<IActionResult> UpdatePorfolio(int id, [FromBody] SavePorfolioResource porfolioResource)
     {
       if (!ModelState.IsValid)
       {
         return BadRequest(ModelState);
       }
       var porfolio = await context.Porfolios
-          .Include(p => p.Securities).SingleOrDefaultAsync(p => p.Id == id);
+      .Include(p => p.Securities)
+      .ThenInclude(ps => ps.Security)
+      .SingleOrDefaultAsync(p => p.Id == id);
 
       if (porfolio == null)
       {
         return NotFound();
       }
 
-      mapper.Map<PorfolioResource, Porfolio>(porfolioResource, porfolio);
+      mapper.Map<SavePorfolioResource, Porfolio>(porfolioResource, porfolio);
       porfolio.LastUpdate = DateTime.Now;
 
       await context.SaveChangesAsync();
