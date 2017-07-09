@@ -15,10 +15,9 @@ namespace investips.Mapping
             .Select(s => s.SecurityId)));
 
             CreateMap<Porfolio, PorfolioResource>()
-            .ForMember(pr => pr.Securities, opt => opt.MapFrom(p => p.Securities.Select(s => new SecurityResource {
-                Id = s.Security.Id, Symbol = s.Security.Symbol})));
-            
-            CreateMap<Security, SecurityResource>();
+            .ForMember(pr => pr.Securities, opt => opt.MapFrom(p => p.Securities
+            .Select(s => new SecurityResource {
+                Id = s.SecurityId, Symbol = s.Security.Symbol})));
 
             CreateMap<SavePorfolioResource, Porfolio>()
             .ForMember(p => p.Id, opt => opt.Ignore())

@@ -17,7 +17,10 @@ namespace investips.Persistence
 
     public async Task<List<Porfolio>> GetPorfolios()
     {
-        return await context.Porfolios.Include(p => p.Securities).ToListAsync();
+        return await context.Porfolios
+        .Include(p => p.Securities)
+        .ThenInclude(ps => ps.Security)
+        .ToListAsync();
     }
     public async Task<Porfolio> GetPorfolio(int id, bool includeProps = true)
     {
