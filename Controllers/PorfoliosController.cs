@@ -7,6 +7,7 @@ using investips.Core.Models;
 using investips.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace investips.Controllers
 {
@@ -38,6 +39,7 @@ namespace investips.Controllers
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<PorfolioResource>> GetPorfolios()
     {
       var porfolios = await repository.GetPorfolios();

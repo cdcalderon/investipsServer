@@ -36,7 +36,6 @@ namespace WebApplicationBasic
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddDbContext<InvestipsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            
 
             // Add framework services.
             services.AddMvc();
@@ -61,6 +60,14 @@ namespace WebApplicationBasic
             }
 
             app.UseStaticFiles();
+            
+            var options = new JwtBearerOptions
+            {
+             Audience = "https://api.investips.com",
+             Authority = "https://investips.auth0.com/"
+            };
+            app.UseJwtBearerAuthentication(options);
+
 
             app.UseMvc(routes =>
             {
