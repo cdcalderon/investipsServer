@@ -12,7 +12,6 @@ namespace investips.Persistence
     public PorfolioRepository(InvestipsDbContext context)
     {
       this.context = context;
-
     }
 
     public async Task<List<Porfolio>> GetPorfolios()

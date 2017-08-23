@@ -39,6 +39,8 @@ namespace investips.Mapping
             });
 
 
+            CreateMap<Security, SecurityResource>();
+            CreateMap<SecurityResource, Security>();
 
             // CreateMap<PorfolioResource, Porfolio>()
             // .ForMember(p => p.Id, opt => opt.Ignore())
