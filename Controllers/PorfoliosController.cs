@@ -29,6 +29,7 @@ namespace investips.Controllers
     {
       var porfolio = await repository.GetPorfolio(id);
 
+
       if (porfolio == null)
       {
         return NotFound();

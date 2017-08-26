@@ -62,12 +62,13 @@ namespace WebApplicationBasic
 
             app.UseStaticFiles();
             
-            var options = new JwtBearerOptions
-            {
-             Audience = "https://api.investips.com",
-             Authority = "https://investips.auth0.com/"
-            };
-            app.UseJwtBearerAuthentication(options);
+            // var options = new JwtBearerOptions
+            // {
+            //  Audience = "https://api.investips.com",
+            //  Authority = "https://investips.auth0.com/"
+            // };
+
+            // app.UseJwtBearerAuthentication(options);
 
 
             app.UseMvc(routes =>
