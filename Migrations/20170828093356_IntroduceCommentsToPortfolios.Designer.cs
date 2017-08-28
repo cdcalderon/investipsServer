@@ -11,9 +11,10 @@ using System;
 namespace Investips.Migrations
 {
     [DbContext(typeof(InvestipsDbContext))]
-    partial class InvestipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170828093356_IntroduceCommentsToPortfolios")]
+    partial class IntroduceCommentsToPortfolios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

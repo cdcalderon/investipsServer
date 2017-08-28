@@ -11,6 +11,7 @@ namespace investips.Core.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
+        public string Comments { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<PorfolioSecurity> Securities { get; set; }
         public Porfolio()  
